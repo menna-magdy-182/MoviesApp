@@ -5,14 +5,12 @@
  * @format
  */
 
+import {QueryClient, QueryClientProvider} from '@tanstack/react-query';
+import {ErrorFallback} from 'components';
 import React from 'react';
-import {
-  SafeAreaView,
-  StatusBar,
-  StyleSheet,
-  useColorScheme,
-} from 'react-native';
+import {SafeAreaView, StyleSheet, useColorScheme} from 'react-native';
 import {Colors} from 'react-native/Libraries/NewAppScreen';
+import ErrorBoundary from 'react-native-error-boundary';
 
 import AppNavigator from './src/navigation/AppNavigator';
 
@@ -23,14 +21,16 @@ function App(): React.JSX.Element {
     backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
   };
 
+  const queryClient = new QueryClient();
+
   return (
-    <SafeAreaView style={[backgroundStyle, styles.container]}>
-      <StatusBar
-        barStyle={isDarkMode ? 'light-content' : 'dark-content'}
-        backgroundColor={backgroundStyle.backgroundColor}
-      />
-      <AppNavigator />
-    </SafeAreaView>
+    <QueryClientProvider client={queryClient}>
+      <ErrorBoundary FallbackComponent={ErrorFallback}>
+        <SafeAreaView style={[backgroundStyle, styles.container]}>
+          <AppNavigator />
+        </SafeAreaView>
+      </ErrorBoundary>
+    </QueryClientProvider>
   );
 }
 
