@@ -36,7 +36,7 @@ const HomeScreen: FC<HomeScreenProps> = ({navigation}) => {
     error,
     isRefetching,
   } = useInfiniteQuery({
-    retryDelay: 3000,
+    retryDelay: 5000,
     queryKey: ['moviesListData', searchTerm],
     initialPageParam: 1,
     queryFn: ({queryKey, pageParam = 1}) =>
@@ -96,16 +96,12 @@ const HomeScreen: FC<HomeScreenProps> = ({navigation}) => {
     ) : null;
   };
 
-  if (isLoading) {
-    return <ScreenLoader />;
-  } else if (error) {
-    return <ErrorFallback />;
-  }
-
   return (
     <View style={styles.container}>
       {renderUserLocation()}
       <SearchInput onChangeText={onChangeSearchInputText} />
+      {isLoading && <ScreenLoader />}
+      {error && <ErrorFallback />}
 
       <FlatList<MovieOverview>
         data={flattenData}

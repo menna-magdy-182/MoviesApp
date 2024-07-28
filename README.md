@@ -104,3 +104,9 @@ This project uses the following dependencies:
 - `react-native-screens`: Provides native screen management to optimize navigation.
 - `react-native-svg`: SVG library for rendering SVG images in React Native.
 - `rn-circle-progress`: Circular progress bar component.
+
+
+
+# DEMO URL
+- Android https://drive.google.com/file/d/1q5muJCBx7GEeQB5WC-CuCUxaSsR-m1XK/view?usp=sharing
+- iOS https://drive.google.com/file/d/1MyMP5Ze8xbhAXiQICmIML7w1ZNIylytT/view?usp=sharing
