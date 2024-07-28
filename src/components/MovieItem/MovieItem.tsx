@@ -1,9 +1,9 @@
 import {IMAGE_PREFIX} from '@env';
 import {PercentageCircle, Text} from 'components';
+import Poster from 'components/AnimatedPoster/AnimatedPoster';
 import {MovieOverview} from 'models/movie';
 import React from 'react';
 import {TouchableOpacity, View} from 'react-native';
-import FastImage from 'react-native-fast-image';
 
 import styles from './MovieItem.styles';
 
@@ -11,15 +11,17 @@ interface MovieItemProps {
   item: MovieOverview;
   onPressHandler: () => void;
 }
-
 const MovieItem = ({item, onPressHandler}: MovieItemProps) => {
+  console.log(item.poster_path);
+
   return (
     <TouchableOpacity style={styles.container} onPress={onPressHandler}>
-      <FastImage
-        resizeMode="stretch"
-        source={{uri: IMAGE_PREFIX + item.poster_path}}
-        style={styles.image}
-      />
+      <View style={styles.imageContainer}>
+        <Poster
+          imageUrl={IMAGE_PREFIX + item.poster_path}
+          style={styles.image}
+        />
+      </View>
       <View style={styles.percentageContainer}>
         <PercentageCircle value={item.vote_average} />
       </View>

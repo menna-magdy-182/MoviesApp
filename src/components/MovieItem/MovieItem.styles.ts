@@ -8,9 +8,12 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     marginEnd: SCREEN_WIDTH * 0.03,
   },
+  imageContainer: {
+    borderRadius: 7,
+    overflow: 'hidden',
+  },
   image: {
     aspectRatio: 0.8,
-    borderRadius: 7,
     width: '100%',
     borderWidth: 0.4,
     borderColor: colors.border,
