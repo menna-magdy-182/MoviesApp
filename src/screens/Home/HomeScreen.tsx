@@ -1,16 +1,25 @@
 import {useInfiniteQuery} from '@tanstack/react-query';
 import {ErrorFallback, MovieItem, ScreenLoader, SearchInput} from 'components';
 import colors from 'constants/colors';
+import {Location} from 'models/locations';
 import {MovieOverview} from 'models/movie';
 import {HomeScreenProps} from 'models/navigation';
-import React, {FC, useCallback, useMemo, useState} from 'react';
-import {ActivityIndicator, FlatList, RefreshControl, View} from 'react-native';
+import React, {FC, useCallback, useEffect, useMemo, useState} from 'react';
+import {
+  ActivityIndicator,
+  FlatList,
+  RefreshControl,
+  Text,
+  View,
+} from 'react-native';
 import apiService from 'services/apiService';
+import {getLocation} from 'utils/location.util';
 
 import styles from './HomeScreen.styles';
 
 const HomeScreen: FC<HomeScreenProps> = ({navigation}) => {
   const [searchTerm, setSearchTerm] = useState('');
+  const [location, setLocation] = useState<Location>();
 
   // Delay is added to avoid exhaustive network calls on every input text change
   const onChangeSearchInputText = (term: string) =>
@@ -47,6 +56,15 @@ const HomeScreen: FC<HomeScreenProps> = ({navigation}) => {
 
   const onEndReached = () => fetchNextPage();
 
+  useEffect(() => {
+    handleGetLocation();
+  }, []);
+
+  const handleGetLocation = async () => {
+    const currentLocation = await getLocation();
+    currentLocation && setLocation(currentLocation);
+  };
+
   const renderMovieItem = useCallback(
     ({item, index}: {item: MovieOverview; index: number}) => {
       const navigateToMovieDetails = () =>
@@ -69,6 +87,15 @@ const HomeScreen: FC<HomeScreenProps> = ({navigation}) => {
     ) : null;
   };
 
+  const renderUserLocation = () => {
+    return location ? (
+      <Text style={styles.locationText}>
+        User Location: longitude: {location.longitude}, latitude:{' '}
+        {location.latitude}
+      </Text>
+    ) : null;
+  };
+
   if (isLoading) {
     return <ScreenLoader />;
   } else if (error) {
@@ -77,7 +104,9 @@ const HomeScreen: FC<HomeScreenProps> = ({navigation}) => {
 
   return (
     <View style={styles.container}>
+      {renderUserLocation()}
       <SearchInput onChangeText={onChangeSearchInputText} />
+
       <FlatList<MovieOverview>
         data={flattenData}
         renderItem={renderMovieItem}

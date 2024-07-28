@@ -10,7 +10,8 @@ import com.facebook.react.defaults.DefaultNewArchitectureEntryPoint.load
 import com.facebook.react.defaults.DefaultReactHost.getDefaultReactHost
 import com.facebook.react.defaults.DefaultReactNativeHost
 import com.facebook.soloader.SoLoader
-import com.moviesapp.AnimatedPosterPackage // Import your custom package here
+import com.moviesapp.AnimatedPosterPackage 
+import com.moviesapp.locationmodule.LocationPackage;
 
 class MainApplication : Application(), ReactApplication {
 
@@ -21,6 +22,8 @@ class MainApplication : Application(), ReactApplication {
               // Packages that cannot be autolinked yet can be added manually here, for example:
               // add(MyReactNativePackage())    
                  add(AnimatedPosterPackage())
+                 add(LocationPackage())
+
                     }
 
         override fun getJSMainModuleName(): String = "index"

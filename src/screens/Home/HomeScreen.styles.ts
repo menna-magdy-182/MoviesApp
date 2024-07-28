@@ -10,6 +10,10 @@ const styles = StyleSheet.create({
   columnWrapper: {
     marginStart: SCREEN_WIDTH * 0.03,
   },
+  locationText: {
+    paddingStart: 20,
+    paddingTop: 10,
+  },
 });
 
 export default styles;
