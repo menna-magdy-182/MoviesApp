@@ -12,17 +12,20 @@ interface MovieItemProps {
   onPressHandler: () => void;
 }
 const MovieItem = ({item, onPressHandler}: MovieItemProps) => {
-  console.log(item.poster_path);
-
   return (
-    <TouchableOpacity style={styles.container} onPress={onPressHandler}>
-      <View style={styles.imageContainer}>
+    <TouchableOpacity
+      style={styles.container}
+      onPress={onPressHandler}
+      testID="test:id/movieItemContainer">
+      <View style={styles.imageContainer} testID="test:id/poster">
         <Poster
           imageUrl={IMAGE_PREFIX + item.poster_path}
           style={styles.image}
         />
       </View>
-      <View style={styles.percentageContainer}>
+      <View
+        style={styles.percentageContainer}
+        testID="test:id/percentageCircle">
         <PercentageCircle value={item.vote_average} />
       </View>
       <Text style={styles.textName} numberOfLines={1}>

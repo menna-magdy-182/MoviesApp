@@ -9,6 +9,7 @@ const ScreenLoader = () => {
       size={'large'}
       style={styles.indicator}
       color={colors.activityIndicator}
+      testID="test:id/loadingIndicator"
     />
   );
 };
