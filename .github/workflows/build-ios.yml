@@ -26,18 +26,26 @@ jobs:
           cd ios
           pod install
 
-      - name: Build IPA
+      - name: Build IPA Archive
         run: |
           cd ios
-          xcodebuild -workspace MoviesApp.xcworkspace \
-          -scheme MoviesApp \
-          -sdk iphoneos \
-          -configuration Release \
-          clean archive \
-          CODE_SIGNING_ALLOWED=NO
+          xcodebuild clean -workspace MoviesApp.xcworkspace \
+            -scheme MoviesApp \
+            -sdk iphoneos \
+            -configuration Release \
+            -archivePath ios/build/MoviesApp.xcarchive archive \
+            CODE_SIGNING_ALLOWED=NO
+
+      - name: Export IPA from Archive
+        run: |
+          cd ios
+          xcodebuild -exportArchive \
+            -archivePath ios/build/MoviesApp.xcarchive \
+            -exportOptionsPlist ios/ExportOptions.plist \
+            -exportPath ios/build
 
       - name: Upload IPA
         uses: actions/upload-artifact@v3
         with:
           name: MoviesApp.ipa
-          path: ios/build/MoviesApp.xcarchive/Products/Applications/MoviesApp.app
+          path: ios/build/MoviesApp.ipa
