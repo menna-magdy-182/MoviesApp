@@ -1,0 +1,43 @@
+name: Build IPA
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-ipa:
+    name: Build IPA
+    runs-on: macos-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Install CocoaPods dependencies
+        run: |
+          cd ios
+          pod install
+
+      - name: Build IPA
+        run: |
+          cd ios
+          xcodebuild -workspace MoviesApp.xcworkspace \
+          -scheme MoviesApp \
+          -sdk iphoneos \
+          -configuration Release \
+          clean archive \
+          CODE_SIGNING_ALLOWED=NO
+
+      - name: Upload IPA
+        uses: actions/upload-artifact@v3
+        with:
+          name: MoviesApp.ipa
+          path: ios/build/MoviesApp.xcarchive/Products/Applications/MoviesApp.app
